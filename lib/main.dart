@@ -32,7 +32,14 @@ class Game extends StatelessWidget {
             actions: [
               JoystickAction(
                 actionId: 1,
-
+              ),
+              JoystickAction(
+                actionId: 2,
+                margin: const EdgeInsets.only(
+                  bottom: 50,
+                  right: 120,
+                ),
+                color: Colors.red,
               )
             ],
           )
@@ -41,13 +48,11 @@ class Game extends StatelessWidget {
           position: Vector2(tileSize * 3, 5 * tileSize),
         ),
         cameraConfig: CameraConfig(
-          zoom: getZoomFromMaxVisibleTile(context, tileSize, 15),
+          zoom: getZoomFromMaxVisibleTile(context, tileSize, 10),
         ),
         backgroundColor: const Color(0xFF3f3851),
         globalForces: [
-          GravityForce2D(
-            value: Vector2(0, 1000)
-          ),
+          GravityForce2D(),
         ],
       ),
     );
