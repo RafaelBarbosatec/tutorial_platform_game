@@ -1,41 +1,29 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flutter/services.dart';
 import 'package:game_pig_king/utils/king_spritesheet.dart';
 
 import '../utils/dust_particle_builder.dart';
 
 class King extends PlatformPlayer with HandleForces {
   bool moveEnabled = true;
-  King({required super.position})
-      : super(
+  King({
+    required super.position,
+  }) : super(
           size: Vector2(78, 58),
-          animation: PlatformAnimations(
-            idleRight: KingSpritesheet.idle,
-            runRight: KingSpritesheet.run,
-            centerAnchor: Vector2(32, 30),
-            jump: PlatformJumpAnimations(
-              jumpUpRight: KingSpritesheet.jump,
-              jumpDownRight: KingSpritesheet.fall,
-            ),
-            others: {
-              'ground': KingSpritesheet.ground,
-              'attack': KingSpritesheet.attack,
-              'hit': KingSpritesheet.hit,
-              'dead': KingSpritesheet.dead,
-              'doorIn': KingSpritesheet.doorIn,
-              'doorOut': KingSpritesheet.doorOut,
-            },
-          ),
+          animation: KingSpritesheet.animations,
         ) {
     mass = 2;
   }
 
   @override
   void onJoystickAction(JoystickActionEvent event) {
-    if (event.event == ActionEvent.DOWN && event.id == 1) {
+    if (event.event == ActionEvent.DOWN &&
+        (event.id == 1 || event.id == LogicalKeyboardKey.space)) {
       jump(jumpSpeed: 200);
     }
 
-    if (event.event == ActionEvent.DOWN && event.id == 2) {
+    if (event.event == ActionEvent.DOWN &&
+        (event.id == 2 || event.id == LogicalKeyboardKey.keyZ)) {
       _execAttack();
     }
     super.onJoystickAction(event);
@@ -130,7 +118,7 @@ class King extends PlatformPlayer with HandleForces {
   @override
   void onDie() {
     moveEnabled = false;
-    stopMove(forceIdle: true);
+    stopMove();
     animation?.playOnceOther(
       'dead',
       runToTheEnd: true,

@@ -90,4 +90,22 @@ abstract class KingSpritesheet {
           textureSize: Vector2(78, 58),
         ),
       );
+
+      static PlatformAnimations get animations => PlatformAnimations(
+            idleRight: KingSpritesheet.idle,
+            runRight: KingSpritesheet.run,
+            centerAnchor: Vector2(32, 30),
+            jump: PlatformJumpAnimations(
+              jumpUpRight: KingSpritesheet.jump,
+              jumpDownRight: KingSpritesheet.fall,
+            ),
+            others: {
+              'ground': KingSpritesheet.ground,
+              'attack': KingSpritesheet.attack,
+              'hit': KingSpritesheet.hit,
+              'dead': KingSpritesheet.dead,
+              'doorIn': KingSpritesheet.doorIn,
+              'doorOut': KingSpritesheet.doorOut,
+            },
+          );
 }

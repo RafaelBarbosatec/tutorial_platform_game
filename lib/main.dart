@@ -2,6 +2,8 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:game_pig_king/game/king.dart';
 
+import 'game/pig.dart';
+
 void main() {
   runApp(const MainApp());
 }
@@ -25,8 +27,16 @@ class Game extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BonfireWidget(
-        map: WorldMapByTiled(WorldMapReader.fromAsset('map/map.tmj')),
+        map: WorldMapByTiled(
+          WorldMapReader.fromAsset('map/map.tmj'),
+          objectsBuilder: {
+            'pig': (properties) => Pig(
+                  position: properties.position,
+                ),
+          },
+        ),
         playerControllers: [
+          Keyboard(),
           Joystick(
             directional: JoystickDirectional(),
             actions: [
