@@ -103,19 +103,19 @@
                         {
                          "name":"map",
                          "type":"string",
-                         "value":"map2"
+                         "value":"map1"
                         }, 
                         {
                          "name":"position",
                          "type":"string",
-                         "value":"3,5"
+                         "value":"10,7"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":46,
-                 "x":314.67325428195,
-                 "y":199.840579710145
+                 "x":107.904967444638,
+                 "y":197.99991246827
                 }],
          "opacity":1,
          "type":"objectgroup",
