@@ -46,7 +46,7 @@ class Door extends GameDecoration
   @override
   int get priority => LayerPriority.MAP;
 
-  Future<void> playOpening(Future<void> Function() runInDoorAnimation) async {
+  Future<void> playEnter(Future<void> Function() runInDoorAnimation) async {
     final newSprite = await DoorSpritesheet.opened;
 
     await playSpriteAnimationOnce(
@@ -60,10 +60,30 @@ class Door extends GameDecoration
 
     bloc.changeMap(
       MapNavigate(
-        map: Map.fromString(targetMap),
+        map: GameMapEnum.fromString(targetMap),
         initialPlayerPosition: targetPosition,
       ),
     );
-    // TODO navigate to other map
+  }
+
+  Future<void> playExit(Future<void> Function() runOutDoorAnimation) async {
+    final closedSprite = await DoorSpritesheet.idle;
+    final openedSprite = await DoorSpritesheet.opened;
+
+    await playSpriteAnimationOnce(
+      DoorSpritesheet.opening,
+      onStart: () async {
+        sprite = openedSprite;
+      },
+    );
+
+    await runOutDoorAnimation();
+
+    await playSpriteAnimationOnce(
+      DoorSpritesheet.clossing,
+      onStart: () async {
+        sprite = closedSprite;
+      },
+    );
   }
 }

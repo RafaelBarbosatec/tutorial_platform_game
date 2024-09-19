@@ -108,14 +108,14 @@
                         {
                          "name":"position",
                          "type":"string",
-                         "value":"3,5"
+                         "value":"3,7"
                         }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":46,
-                 "x":314.67325428195,
-                 "y":199.840579710145
+                 "x":297.491436100132,
+                 "y":199.658761528327
                 }],
          "opacity":1,
          "type":"objectgroup",

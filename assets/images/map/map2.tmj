@@ -103,12 +103,12 @@
                         {
                          "name":"map",
                          "type":"string",
-                         "value":"map1"
+                         "value":"map"
                         }, 
                         {
                          "name":"position",
                          "type":"string",
-                         "value":"10,7"
+                         "value":"9,7"
                         }],
                  "rotation":0,
                  "type":"",

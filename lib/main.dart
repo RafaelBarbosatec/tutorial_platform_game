@@ -6,6 +6,7 @@ import 'package:game_pig_king/game/door.dart';
 import 'package:game_pig_king/game/king.dart';
 
 import 'controllers/map_controller_cubit.dart';
+import 'game/empty_component.dart';
 import 'game/pig.dart';
 
 void main() {
@@ -39,8 +40,9 @@ class Game extends StatelessWidget {
               map: WorldMapByTiled(
                 WorldMapReader.fromAsset('map/${state.navigate.map.name}.tmj'),
                 objectsBuilder: {
-                  'pig': (properties) => Pig(
-                        position: properties.position,
+                  'pig': (p) => _buildPig(
+                        p,
+                        context.read<MapControllerCubit>(),
                       ),
                   'door': (properties) => Door(
                         position: properties.position,
@@ -72,6 +74,7 @@ class Game extends StatelessWidget {
               ],
               player: King(
                 position: state.navigate.initialPlayerPosition * tileSize,
+                animatedDoorOut: state.navigate.animateDoorOut,
               ),
               cameraConfig: CameraConfig(
                 zoom: getZoomFromMaxVisibleTile(context, tileSize, 10),
@@ -87,11 +90,30 @@ class Game extends StatelessWidget {
     );
   }
 
+  GameComponent _buildPig(properties, MapControllerCubit controller) {
+    final state = controller.getEnemyState(properties.id ?? 0);
+    if (state == null) {
+      return Pig(
+        position: properties.position,
+        id: properties.id ?? 0,
+      );
+    } else {
+      if (state.life <= 0) {
+        return EmptyComponent();
+      }
+      return Pig(
+        position: state.position,
+        id: properties.id ?? 0,
+        currentLife: state.life,
+      );
+    }
+  }
+
   Vector2 _getVector2FromString(String text) {
     final parts = text.split(',');
     return Vector2(
-      (double.tryParse(parts[0]) ?? 0) * tileSize,
-      (double.tryParse(parts[1]) ?? 0) * tileSize,
+      (double.tryParse(parts[0]) ?? 0),
+      (double.tryParse(parts[1]) ?? 0),
     );
   }
 }

@@ -8,13 +8,18 @@ import 'door.dart';
 class King extends PlatformPlayer with HandleForces {
   bool moveEnabled = true;
   Door? doorInContacting;
+  final bool animatedDoorOut;
   King({
     required super.position,
+    this.animatedDoorOut = false,
   }) : super(
           size: Vector2(78, 58),
           animation: KingSpritesheet.animations,
         ) {
     mass = 2;
+    opacity = animatedDoorOut ? 0 : 1;
+    handleForcesEnabled = false;
+    moveEnabled = false;
   }
 
   @override
@@ -140,7 +145,7 @@ class King extends PlatformPlayer with HandleForces {
 
   void _enterDoor(Door doorInContacting) {
     moveEnabled = false;
-    doorInContacting.playOpening(
+    doorInContacting.playEnter(
       () async {
         await animation?.playOnceOther(
           'doorIn',
@@ -150,5 +155,41 @@ class King extends PlatformPlayer with HandleForces {
         );
       },
     );
+  }
+
+  @override
+  void onMount() {
+    super.onMount();
+    if (animatedDoorOut) {
+      _playDoorOut();
+    } else {
+      _enabledForces();
+    }
+  }
+
+  void _playDoorOut() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    doorInContacting?.playExit(
+      () async {
+        await animation?.playOnceOther(
+          'doorOut',
+          runToTheEnd: true,
+          useCompFlip: true,
+          onStart: () {
+            opacity = 1;
+          },
+          onFinish: () {
+            moveEnabled = true;
+            handleForcesEnabled = true;
+          },
+        );
+      },
+    );
+  }
+
+  void _enabledForces() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    handleForcesEnabled = true;
+    moveEnabled = true;
   }
 }
