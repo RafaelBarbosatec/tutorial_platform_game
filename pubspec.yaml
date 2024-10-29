@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bonfire: ^3.10.0
+  bonfire: ^3.11.0
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   bonfire_bloc: ^0.0.2
@@ -28,4 +28,6 @@ flutter:
     - assets/images/map/
     - assets/images/king/
     - assets/images/pig/
+    - assets/images/pig_box/
     - assets/images/door/
+    - assets/images/box/

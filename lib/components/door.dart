@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire_bloc/bonfire_bloc.dart';
-import 'package:game_pig_king/game/king.dart';
+import 'package:game_pig_king/components/king.dart';
 import 'package:game_pig_king/utils/door_spritesheet.dart';
 
 import '../controllers/map_controller_cubit.dart';

@@ -31,6 +31,74 @@ abstract class PigSpritesheet {
         amout: 5,
       );
 
+  static Future<SpriteAnimation> getPickingBox() {
+    return Flame.images.load("pig_box/picking_box.png").then((image) async {
+      final flipped = await image.flipAnimation(
+        size: Vector2(26, 30),
+        count: 5,
+      );
+      return SpriteAnimation.fromFrameData(
+        flipped,
+        SpriteAnimationData.sequenced(
+          amount: 5,
+          stepTime: 0.1,
+          textureSize: Vector2(26, 30),
+        ),
+      );
+    });
+  }
+
+  static Future<SpriteAnimation> getIdleBox() {
+    return Flame.images.load("pig_box/idle.png").then((image) async {
+      final flipped = await image.flipAnimation(
+        size: Vector2(26, 30),
+        count: 9,
+      );
+      return SpriteAnimation.fromFrameData(
+        flipped,
+        SpriteAnimationData.sequenced(
+          amount: 9,
+          stepTime: 0.1,
+          textureSize: Vector2(26, 30),
+        ),
+      );
+    });
+  }
+
+  static Future<SpriteAnimation> getRunBox() {
+    return Flame.images.load("pig_box/run.png").then((image) async {
+      final flipped = await image.flipAnimation(
+        size: Vector2(26, 30),
+        count: 6,
+      );
+      return SpriteAnimation.fromFrameData(
+        flipped,
+        SpriteAnimationData.sequenced(
+          amount: 6,
+          stepTime: 0.1,
+          textureSize: Vector2(26, 30),
+        ),
+      );
+    });
+  }
+
+  static Future<SpriteAnimation> getThrowingBox() {
+    return Flame.images.load("pig_box/throwing_box.png").then((image) async {
+      final flipped = await image.flipAnimation(
+        size: Vector2(26, 30),
+        count: 5,
+      );
+      return SpriteAnimation.fromFrameData(
+        flipped,
+        SpriteAnimationData.sequenced(
+          amount: 5,
+          stepTime: 0.1,
+          textureSize: Vector2(26, 30),
+        ),
+      );
+    });
+  }
+
   static PlatformAnimations get animations => PlatformAnimations(
         idleRight: idle,
         runRight: run,

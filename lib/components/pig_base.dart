@@ -1,45 +1,39 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:bonfire_bloc/bonfire_bloc.dart';
-import 'package:flutter/widgets.dart';
+import 'package:game_pig_king/components/king.dart';
 import 'package:game_pig_king/controllers/map_controller_cubit.dart';
-import 'package:game_pig_king/game/king.dart';
 
 import '../main.dart';
 import '../utils/my_game_enemy.dart';
 import '../utils/pig_spritesheet.dart';
 
-class Pig extends PlatformEnemy
+abstract class PigBase extends PlatformEnemy
     with
         HandleForces,
-        UseLifeBar,
         RandomMovement,
         MyEnemyGame,
         BonfireBlocReader<MapControllerCubit> {
-  Pig({
+  late SimpleDirectionAnimation baseAnimation;
+  bool findingPlayer = true;
+  static final sizeBase = Vector2(34, 28);
+  late RectangleHitbox baseHitbox;
+  PigBase({
     required super.position,
     required int id,
-    double? currentLife,
   }) : super(
-          size: Vector2(34, 28),
+          size: sizeBase,
           animation: PigSpritesheet.animations,
           speed: 40,
         ) {
-    if (currentLife != null) {
-      updateLife(currentLife);
-    }
+    baseAnimation = animation!;
 
     this.id = id;
-    setupLifeBar(
-      borderRadius: BorderRadius.circular(50),
-      barLifeDrawPosition: BarLifeDrawPosition.bottom,
-      offset: Vector2(0, -1),
-    );
     mass = 2;
   }
 
   @override
   void update(double dt) {
-    if (!isDead && jumpingState != JumpingStateEnum.down) {
+    if (!isDead && jumpingState != JumpingStateEnum.down && findingPlayer) {
       final player = gameRef.player;
       if ((player as King?)?.moveEnabled == true) {
         seeAndMoveToPlayer(
@@ -63,7 +57,7 @@ class Pig extends PlatformEnemy
   @override
   Future<void> onLoad() {
     add(
-      RectangleHitbox(
+      baseHitbox = RectangleHitbox(
         size: Vector2.all(14),
         position: Vector2(10, 8.5),
       ),

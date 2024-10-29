@@ -27,7 +27,7 @@ class King extends PlatformPlayer with HandleForces {
     if (moveEnabled) {
       if (event.event == ActionEvent.DOWN &&
           (event.id == 1 || event.id == LogicalKeyboardKey.space)) {
-        jump(jumpSpeed: 200);
+        jump(jumpSpeed: 210);
       }
 
       if (event.event == ActionEvent.DOWN &&

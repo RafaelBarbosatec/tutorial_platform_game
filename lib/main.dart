@@ -1,13 +1,15 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_pig_king/components/door.dart';
+import 'package:game_pig_king/components/king.dart';
 import 'package:game_pig_king/controllers/map_controller_state.dart';
-import 'package:game_pig_king/game/door.dart';
-import 'package:game_pig_king/game/king.dart';
 
+import 'components/box.dart';
+import 'components/empty_component.dart';
+import 'components/pig_box.dart';
+import 'components/pig_normal.dart';
 import 'controllers/map_controller_cubit.dart';
-import 'game/empty_component.dart';
-import 'game/pig.dart';
 
 void main() {
   runApp(const MainApp());
@@ -51,6 +53,12 @@ class Game extends StatelessWidget {
                           properties.others['position'],
                         ),
                       ),
+                  'box': (p) => Box(
+                        position: p.position,
+                      ),
+                  'pig_box': (p) => PigBox(
+                        position: p.position,
+                      ),
                 },
               ),
               playerControllers: [
@@ -93,7 +101,7 @@ class Game extends StatelessWidget {
   GameComponent _buildPig(properties, MapControllerCubit controller) {
     final state = controller.getEnemyState(properties.id ?? 0);
     if (state == null) {
-      return Pig(
+      return PigNormal(
         position: properties.position,
         id: properties.id ?? 0,
       );
@@ -101,7 +109,7 @@ class Game extends StatelessWidget {
       if (state.life <= 0) {
         return EmptyComponent();
       }
-      return Pig(
+      return PigNormal(
         position: state.position,
         id: properties.id ?? 0,
         currentLife: state.life,
