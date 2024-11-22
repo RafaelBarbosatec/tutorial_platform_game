@@ -26,14 +26,17 @@ class Box extends GameDecoration
     return super.onLoad();
   }
 
+  bool alreadyDoDamage = false;
+
   @override
   bool onBlockMovement(Set<Vector2> intersectionPoints, GameComponent other) {
     if (destroyable) {
-      removeFromParent();
       _throwPieces();
-      if (other is King) {
-        other.handleAttack(AttackOriginEnum.ENEMY, 10, null);
+      if (other is King && !alreadyDoDamage) {
+        alreadyDoDamage = true;
+        other.handleAttack(AttackOriginEnum.ENEMY, 1, null);
       }
+      removeFromParent();
     }
     return super.onBlockMovement(intersectionPoints, other);
   }

@@ -1,8 +1,8 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:game_pig_king/components/box.dart';
 import 'package:game_pig_king/components/king.dart';
+import 'package:game_pig_king/game/game.dart';
 
-import '../main.dart';
 import '../utils/pig_spritesheet.dart';
 import 'pig_base.dart';
 
@@ -23,8 +23,12 @@ class PigBox extends PigBase {
 
   PigBox({
     required super.position,
+    bool cutSceneExecuted = false,
+    required int id,
   }) : super(id: 10000) {
     findingPlayer = false;
+    this.id = id;
+    this.cutSceneExecuted = cutSceneExecuted;
     setupVision(
       checkWithRaycast: false,
     );
@@ -47,6 +51,12 @@ class PigBox extends PigBase {
   }
 
   void _startScene() {
+    if (cutSceneExecuted) {
+      return;
+    }
+    cutSceneExecuted = true;
+    bloc.updateEnemyState(this);
+
     gameRef.startScene(
       [
         CameraSceneAction.target(this),

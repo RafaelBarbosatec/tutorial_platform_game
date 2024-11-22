@@ -60,7 +60,7 @@ class Door extends GameDecoration
 
     bloc.changeMap(
       MapNavigate(
-        map: GameMapEnum.fromString(targetMap),
+        map: targetMap,
         initialPlayerPosition: targetPosition,
       ),
     );

@@ -1,21 +1,27 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:bonfire_bloc/bonfire_bloc.dart';
 import 'package:flutter/services.dart';
+import 'package:game_pig_king/controllers/map_controller_cubit.dart';
 import 'package:game_pig_king/utils/king_spritesheet.dart';
 
 import '../utils/dust_particle_builder.dart';
 import 'door.dart';
 
-class King extends PlatformPlayer with HandleForces {
+class King extends PlatformPlayer
+    with HandleForces, BonfireBlocReader<MapControllerCubit> {
   bool moveEnabled = true;
   Door? doorInContacting;
   final bool animatedDoorOut;
   King({
     required super.position,
     this.animatedDoorOut = false,
+    double currentLife = 3,
   }) : super(
           size: Vector2(78, 58),
           animation: KingSpritesheet.animations,
+          life: 3,
         ) {
+    updateLife(currentLife);
     mass = 2;
     opacity = animatedDoorOut ? 0 : 1;
     handleForcesEnabled = false;
@@ -191,5 +197,11 @@ class King extends PlatformPlayer with HandleForces {
     await Future.delayed(const Duration(milliseconds: 100));
     handleForcesEnabled = true;
     moveEnabled = true;
+  }
+
+  @override
+  void removeLife(double life) {
+    super.removeLife(life);
+    bloc.updatePlayerLife(this.life);
   }
 }

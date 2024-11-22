@@ -2,8 +2,8 @@ import 'package:bonfire/bonfire.dart';
 import 'package:bonfire_bloc/bonfire_bloc.dart';
 import 'package:game_pig_king/components/king.dart';
 import 'package:game_pig_king/controllers/map_controller_cubit.dart';
+import 'package:game_pig_king/game/game.dart';
 
-import '../main.dart';
 import '../utils/my_game_enemy.dart';
 import '../utils/pig_spritesheet.dart';
 
@@ -100,7 +100,7 @@ abstract class PigBase extends PlatformEnemy
 
       simpleAttackMeleeByDirection(
         direction: directionThatPlayerIs(),
-        damage: 10,
+        damage: 1,
         size: size / 2,
         attackFrom: AttackOriginEnum.ENEMY,
         withPush: false,
