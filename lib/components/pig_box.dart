@@ -39,10 +39,7 @@ class PigBox extends PigBase {
     seePlayer(
       observed: (player) {
         if (!runningScene) {
-          runningScene = true;
-          (player as King).moveEnabled = false;
-          (player).stopMove();
-          _startScene();
+          _startScene(player);
         }
       },
       radiusVision: Game.tileSize * 5,
@@ -50,11 +47,14 @@ class PigBox extends PigBase {
     super.update(dt);
   }
 
-  void _startScene() {
+  void _startScene(Player player) {
+    runningScene = true;
     if (cutSceneExecuted) {
       return;
     }
     cutSceneExecuted = true;
+    (player as King).moveEnabled = false;
+    (player).stopMove();
     bloc.updateEnemyState(this);
 
     gameRef.startScene(
